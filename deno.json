@@ -1,6 +1,10 @@
 {
   "tasks": {
     "dev": "deno run --allow-net --watch src/main.ts",
-    "run": "deno run --allow-net src/main.ts"
+    "run": "deno run --allow-net src/main.ts",
+    "compile_win": "deno compile --allow-net -o bin/crld --target x86_64-pc-windows-msvc src/main.ts",
+    "compile_unx": "deno compile --allow-net -o bin/crld --target x86_64-unknown-linux-gnu src/main.ts",
+    "compile_mac": "deno compile --allow-net -o bin/crld --target x86_64-apple-darwin src/main.ts",
+    "compile_aarch": "deno compile --allow-net -o bin/crld --target aarch64-apple-darwin src/main.ts"
   }
 }

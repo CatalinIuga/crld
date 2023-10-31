@@ -9,7 +9,7 @@ interface JSONObject {
 /**
  * @description Color Options for the JSON highlighter. Only valid CSS colors will work. The color must be specified as a string, in any valid CSS way.
  * @example { booleans: "black", keys: "#252525", strings:"rgb(31 120 50)"}
- *  @default Defaults: {delimiters: "white", colons: "orange", keys: "FA9BFA", numbers: "red", strings: "green", booleans: "blue", nulls:"crimson"}
+ * @default Defaults: {delimiters: "white", colons: "orange", keys: "FA9BFA", numbers: "red", strings: "green", booleans: "blue", nulls:"crimson"}
  * @property Delimiter {}[],
  * @property Colons :
  * @property Keys "key":
@@ -69,8 +69,10 @@ function printColoredJson(json: JSONObject, colorOptions?: ColorOptions): void {
     },
   ];
 
-  // before each tokken match we add a %c (which will format
-  // the string later) and the color of choice.
+  /**
+   * before each tokken match we add a %c<color> which
+   * will be used to create the color array
+   */
   for (const token of tokenTypes) {
     const regex = new RegExp(token.regex.source, "g");
     jsonString = jsonString.replace(regex, (match) => {
@@ -79,19 +81,17 @@ function printColoredJson(json: JSONObject, colorOptions?: ColorOptions): void {
     });
   }
 
-  // This matches the %c<color> in order to create out array of colors.
+  // Constructing the color array
   const colorRegex = new RegExp(
     "%c(" + tokenTypes.map((t) => t.color).join("|") + ")",
     "g"
   );
-
-  // at each match we add the color to the color array
   jsonString = jsonString.replace(colorRegex, (match) => {
     colors.push(`color: ${match.slice(2)};font-weight: 900;`);
     return "%c";
   });
 
-  // preatty print the json with the colors of choice.
+  // Preatty print the json with the colors of choice.
   console.log(jsonString, ...colors);
 }
 

@@ -121,11 +121,6 @@ const crld = new Command()
         options.json ||
         response.headers.get("Content-Type")?.includes("application/json")
       ) {
-        console.log(
-          options.json,
-          response.headers.get("Content-Type")?.includes("application/json")
-        );
-
         return printColoredJson({ json: JSON.parse(responseBody) });
       }
 
